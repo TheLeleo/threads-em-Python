@@ -1,23 +1,34 @@
-from thread import ThreadWithReturnValue
+from thread import ArquiteturaThread # importar classe ArquiteturaThread dentro do arquivo thread.py
 
 
+# Funções globais
+ARRAY1 = [1, 2, 10, 20, 61]
+ARRAY2 = [3, 6, 9, 17, 64]
+
+
+# Função que recebe um array e calcula a soma de todos os valores
 def calculaArray(lista):
     res = 0
     for i in range(len(lista)):
         res += lista[i]
     return res
 
+# criando 2 threads com a função de calculaArray, inserindo os respectivos arrays
+processo1 = ArquiteturaThread(target=calculaArray,  args=(ARRAY1,))
+processo2 = ArquiteturaThread(target=calculaArray, args=(ARRAY2,))
 
-p1 = ThreadWithReturnValue(target=calculaArray,  args=([1, 2, 10, 20, 61],))
+# iniciando as threads
+processo1.start()
+processo2.start()
 
-p2 = ThreadWithReturnValue(target=calculaArray, args=([3, 6, 9, 17, 64],))
+# armazenando os resultados
+resultado1 = processo1.getResult()
+resultado2 = processo2.getResult()
 
-p1.start()
-p2.start()
-result = p1.join()
-result2 = p2.join()
-resultFinal = result + result2
+# Realizar as somas dos resultados obtidos pelas 2 threads
+resultFinal = resultado1 + resultado2
 
-print("soma da thread 1 '",result,"', com a thread 2 '",result2,"' =", resultFinal)
+# Printar os resultados no terminal
+print("soma da thread 1 '", resultado1, "', com a thread 2 '", resultado2, "' =", resultFinal)
 
 
